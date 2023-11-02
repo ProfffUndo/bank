@@ -6,12 +6,13 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "transaction")
+@Table(name = "transaction", schema = "bank")
 @Data
 public class Transaction {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JoinColumn(name = "tran_id")
-    private Integer id;
+    private Integer tranId;
 
     @ManyToOne
     @JoinColumn(name = "sender_id")
