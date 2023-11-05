@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class TransactionMessagingService {
-    @Value("${topic.send-transaction}")
+    @Value("${spring.kafka.topic-name}")
     private String sendTransactionTopic;
 
     private final KafkaTemplate<String, Transaction> kafkaTemplate;
