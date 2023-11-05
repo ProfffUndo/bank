@@ -3,6 +3,7 @@ package com.profffundo.bank.exception.handler;
 import com.profffundo.bank.exception.AccountNotFoundException;
 import com.profffundo.bank.exception.InsufficientFundsException;
 import com.profffundo.bank.exception.NegativeSumException;
+import com.profffundo.bank.exception.TransactionNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -11,8 +12,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 public class AppExceptionHandler extends ResponseEntityExceptionHandler {
-    @ExceptionHandler(AccountNotFoundException.class)
-    public ResponseEntity<AppError> catchAccountNotFoundException (AccountNotFoundException e){
+    @ExceptionHandler({AccountNotFoundException.class, TransactionNotFoundException.class})
+    public ResponseEntity<AppError> catchNotFoundException (RuntimeException e){
         AppError error = AppError.builder()
                 .message(e.getMessage())
                 .status(HttpStatus.NOT_FOUND)
@@ -21,7 +22,7 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler({InsufficientFundsException.class, NegativeSumException.class})
-    public ResponseEntity<AppError> catchImpossibleOperationExceptions (InsufficientFundsException e){
+    public ResponseEntity<AppError> catchImpossibleOperationExceptions (RuntimeException e){
         AppError error = AppError.builder()
                 .message(e.getMessage())
                 .status(HttpStatus.BAD_REQUEST)

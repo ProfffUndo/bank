@@ -7,9 +7,7 @@ import com.profffundo.bank.dto.TransactionResponseDto;
 import com.profffundo.bank.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class TransactionController {
@@ -23,6 +21,11 @@ public class TransactionController {
     @PostMapping("/transaction")
     public TransactionResponseDto changeBalance (@RequestBody @Validated(TransactionInfo.class) TransactionRequestDto requestDto){
         return transactionService.changeBalance(requestDto);
+    }
+
+    @GetMapping("/transaction/{id}")
+    public TransactionResponseDto getTransaction (@PathVariable Integer id){
+        return transactionService.getTransaction(id);
     }
 
     TransactionController(@Autowired TransactionService transactionService){

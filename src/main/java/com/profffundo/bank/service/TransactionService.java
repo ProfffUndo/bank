@@ -7,6 +7,7 @@ import com.profffundo.bank.entity.Transaction;
 import com.profffundo.bank.exception.AccountNotFoundException;
 import com.profffundo.bank.exception.InsufficientFundsException;
 import com.profffundo.bank.exception.NegativeSumException;
+import com.profffundo.bank.exception.TransactionNotFoundException;
 import com.profffundo.bank.repo.AccountRepository;
 import com.profffundo.bank.repo.TransactionRepository;
 import jakarta.transaction.Transactional;
@@ -80,6 +81,16 @@ public class TransactionService {
                     .time(transaction.getTranTime())
                     .build();
         }
+    }
+
+    public TransactionResponseDto getTransaction (Integer transactionId){
+        Transaction transaction = transactionRepository.findById(transactionId)
+                .orElseThrow(() -> new TransactionNotFoundException(transactionId));
+        return TransactionResponseDto.builder()
+                .receiverAccountNumber(transaction.getReceiverAccount().getNumber())
+                .sum(transaction.getSum())
+                .time(transaction.getTranTime())
+                .build();
     }
 
     TransactionService (@Autowired AccountRepository accountRepository,
