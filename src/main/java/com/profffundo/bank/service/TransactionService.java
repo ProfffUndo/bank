@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+import static com.profffundo.bank.utils.MapperUtils.mapTransactionToDto;
+
 @Service
 public class TransactionService {
     private final AccountRepository accountRepository;
@@ -50,12 +52,7 @@ public class TransactionService {
                 .build();
         transactionRepository.save(transaction);
 
-        return TransactionResponseDto.builder()
-                .senderAccountNumber(sender.getNumber())
-                .receiverAccountNumber(receiver.getNumber())
-                .sum(sum)
-                .time(transaction.getTranTime())
-                .build();
+        return mapTransactionToDto(transaction);
     }
 
     @Transactional
@@ -75,22 +72,14 @@ public class TransactionService {
                     .build();
             transactionRepository.save(transaction);
 
-            return TransactionResponseDto.builder()
-                    .receiverAccountNumber(account.getNumber())
-                    .sum(sum)
-                    .time(transaction.getTranTime())
-                    .build();
+            return mapTransactionToDto(transaction);
         }
     }
 
     public TransactionResponseDto getTransaction (Integer transactionId){
         Transaction transaction = transactionRepository.findById(transactionId)
                 .orElseThrow(() -> new TransactionNotFoundException(transactionId));
-        return TransactionResponseDto.builder()
-                .receiverAccountNumber(transaction.getReceiverAccount().getNumber())
-                .sum(transaction.getSum())
-                .time(transaction.getTranTime())
-                .build();
+        return mapTransactionToDto(transaction);
     }
 
     TransactionService (@Autowired AccountRepository accountRepository,
