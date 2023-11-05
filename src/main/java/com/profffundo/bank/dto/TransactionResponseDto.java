@@ -11,13 +11,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TransactionDto {
+public class TransactionResponseDto {
 
     private String senderAccountNumber;
 
     private String receiverAccountNumber;
 
-    private Double value;
+    private Double sum;
 
     private LocalDateTime time;
 }

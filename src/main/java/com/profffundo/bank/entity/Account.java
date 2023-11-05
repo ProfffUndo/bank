@@ -14,5 +14,5 @@ public class Account {
 
     private String number;
 
-    private Double amount;
+    private Double balance;
 }
