@@ -1,0 +1,17 @@
+spring:
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        password: GGfromNaVi_2015
+        url: jdbc:postgresql://localhost:5432/bank?currentSchema=bank
+        username: sofakremeneckaa
+    kafka:
+        bootstrap-servers: localhost:9092
+        consumer:
+            group-id: '"transaction-1"'
+            key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+            value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+        group-id: transaction-group
+        producer:
+            key-serializer: org.apache.kafka.common.serialization.StringDeserializer
+            value-serializer: org.springframework.kafka.support.serializer.JsonDeserializer
+        topic-name: send-transaction
