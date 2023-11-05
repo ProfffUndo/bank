@@ -28,7 +28,7 @@ public class Transaction {
     @JoinColumn(name = "receiver_id")
     private Account receiverAccount;
 
-    private Double value;
+    private Double sum;
 
     @JoinColumn(name = "tran_time")
     private LocalDateTime tranTime;
