@@ -1,18 +1,16 @@
 package com.profffundo.bank.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name = "account")
+@Table(name = "account", schema = "bank")
 @Data
 public class Account {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JoinColumn(name = "account_id")
-    private Integer id;
+    private Integer accountId;
 
     private String number;
 
