@@ -9,6 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ValueDto {
+public class TransactionRequestDto {
+    private Integer senderId;
+
+    private Integer receiverId;
+
     private Double value;
 }
