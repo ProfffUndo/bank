@@ -8,10 +8,14 @@ import com.profffundo.bank.exception.AccountNotFoundException;
 import com.profffundo.bank.exception.InsufficientFundsException;
 import com.profffundo.bank.exception.NegativeSumException;
 import com.profffundo.bank.exception.TransactionNotFoundException;
+import com.profffundo.bank.kafka.TransactionMessagingService;
 import com.profffundo.bank.repo.AccountRepository;
 import com.profffundo.bank.repo.TransactionRepository;
 import jakarta.transaction.Transactional;
+import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,6 +26,7 @@ import static com.profffundo.bank.utils.MapperUtils.mapTransactionToDto;
 public class TransactionService {
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
+    private final TransactionMessagingService messagingService;
 
     @Transactional
     public TransactionResponseDto transfer (TransactionRequestDto requestDto){
@@ -52,6 +57,8 @@ public class TransactionService {
                 .build();
         transactionRepository.save(transaction);
 
+        messagingService.sendTransaction(transaction);
+
         return mapTransactionToDto(transaction);
     }
 
@@ -72,6 +79,8 @@ public class TransactionService {
                     .build();
             transactionRepository.save(transaction);
 
+            messagingService.sendTransaction(transaction);
+
             return mapTransactionToDto(transaction);
         }
     }
@@ -83,8 +92,10 @@ public class TransactionService {
     }
 
     TransactionService (@Autowired AccountRepository accountRepository,
-                        @Autowired TransactionRepository transactionRepository){
+                        @Autowired TransactionRepository transactionRepository,
+                        @Autowired TransactionMessagingService transactionMessagingService){
         this.accountRepository = accountRepository;
         this.transactionRepository = transactionRepository;
+        this.messagingService = transactionMessagingService;
     }
 }
