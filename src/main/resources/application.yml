@@ -2,8 +2,13 @@ spring:
     datasource:
         driver-class-name: org.postgresql.Driver
         password: GGfromNaVi_2015
-        url: jdbc:postgresql://localhost:5432/bank?currentSchema=bank
+        url: jdbc:postgresql://localhost:5432/bank
         username: sofakremeneckaa
+    liquibase:
+        enabled: true
+        drop-first: false
+        change-log: db/changelog/db-changelog-master.xml
+        default-schema: bank
     kafka:
         bootstrap-servers: localhost:9092
         consumer:
