@@ -12,10 +12,7 @@ import com.profffundo.bank.kafka.TransactionMessagingService;
 import com.profffundo.bank.repo.AccountRepository;
 import com.profffundo.bank.repo.TransactionRepository;
 import jakarta.transaction.Transactional;
-import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -78,6 +75,8 @@ public class TransactionService {
                     .tranTime(LocalDateTime.now())
                     .build();
             transactionRepository.save(transaction);
+
+            account.setBalance(account.getBalance() + sum);
 
             messagingService.sendTransaction(transaction);
 
