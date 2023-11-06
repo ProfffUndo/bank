@@ -1,3 +1,5 @@
+CREATE SCHEMA IF NOT EXISTS bank;
+
 CREATE TABLE IF NOT EXISTS bank.account (
                                             account_id serial PRIMARY KEY,
                                             number VARCHAR (64) UNIQUE NOT NULL,
